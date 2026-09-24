@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Tells the browser which character set to use so emoji and symbols display correctly -->
+  <meta charset="UTF-8">
+  <!-- Makes the page scale properly on phones instead of showing a tiny desktop view -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline Cat</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <h1 class="title">Offline Cat</h1>
+
+    <!--
+      The game container holds the canvas AND the overlay screens.
+      The overlays sit on top of the canvas (see style.css, position: absolute),
+      so we can use normal HTML buttons for "Start" and "Restart".
+    -->
+    <div class="game-container" id="game-container">
+      <!--
+        The canvas is a blank drawing surface. game.js draws everything onto it.
+        width/height here are the canvas's INTERNAL resolution (the coordinate
+        system the code uses). CSS can stretch it visually without changing that.
+      -->
+      <canvas id="game-canvas" width="800" height="250"></canvas>
+
+      <!-- Score shown while playing -->
+      <div class="score-display" aria-live="polite">
+        <span>Score: <strong id="score">0</strong></span>
+        <span>Best: <strong id="high-score">0</strong></span>
+      </div>
+
+      <!-- Start screen: visible when the page first loads -->
+      <div class="overlay" id="start-screen">
+        <h2>Ready to run?</h2>
+        <p>Press <kbd>Space</kbd> or tap to jump over the other cats.</p>
+        <button type="button" id="start-button">Start</button>
+      </div>
+
+      <!-- Game over screen: hidden until the player crashes -->
+      <div class="overlay hidden" id="game-over-screen">
+        <h2>Game Over</h2>
+        <p>You cleared <strong id="final-score">0</strong> cats.</p>
+        <button type="button" id="restart-button">Restart</button>
+      </div>
+    </div>
+
+    <p class="hint">Controls: <kbd>Space</kbd> / <kbd>↑</kbd> or tap the game to jump.</p>
+  </main>
+
+  <!--
+    The script goes at the END of <body> so that all the HTML elements above
+    already exist when game.js runs and looks them up with getElementById.
+  -->
+  <script src="game.js"></script>
+</body>
+</html>
