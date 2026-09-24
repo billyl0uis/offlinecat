@@ -1,0 +1,152 @@
+/*
+  Colors are stored as CSS variables so you can change the whole look
+  of the game by editing just these few lines.
+*/
+:root {
+  --bg: #f7f3ee;
+  --panel: #ffffff;
+  --text: #2d2a26;
+  --muted: #6f6a63;
+  --accent: #e07a2f;
+  --accent-hover: #c4661f;
+  --border: #d9d2c7;
+}
+
+/* Remove default browser spacing and make sizing predictable */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
+}
+
+.page {
+  max-width: 832px;         /* 800px canvas + 16px padding on each side */
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.title {
+  font-size: 1.75rem;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+/*
+  position: relative makes this the reference point for the absolutely
+  positioned overlays and score display inside it.
+*/
+.game-container {
+  position: relative;
+  width: 100%;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--panel);
+  /* Stops the browser from zooming/scrolling when the player taps quickly */
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/*
+  The canvas's internal size is 800x250 (set in index.html).
+  width: 100% + height: auto shrinks it to fit small screens while
+  keeping the same shape. The game code does not need to change.
+*/
+#game-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+}
+
+.score-display {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  display: flex;
+  gap: 16px;
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums; /* digits all the same width, so the text doesn't wiggle */
+  color: var(--muted);
+  pointer-events: none;               /* clicks pass through to the canvas */
+}
+
+/* Overlay screens cover the whole canvas */
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px;
+  text-align: center;
+  background: rgba(247, 243, 238, 0.88);
+}
+
+.overlay h2 {
+  font-size: 1.5rem;
+}
+
+.overlay p {
+  color: var(--muted);
+}
+
+/* JavaScript adds/removes this class to show or hide a screen */
+.hidden {
+  display: none;
+}
+
+button {
+  font: inherit;
+  font-weight: 600;
+  padding: 10px 28px;
+  border: none;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--accent-hover);
+}
+
+button:focus-visible {
+  outline: 3px solid var(--text);
+  outline-offset: 2px;
+}
+
+kbd {
+  display: inline-block;
+  padding: 1px 6px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--panel);
+  font-family: inherit;
+  font-size: 0.85em;
+}
+
+.hint {
+  margin-top: 12px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* On small phones, shrink the overlay text so it fits inside the short canvas */
+@media (max-width: 480px) {
+  .overlay h2 { font-size: 1.1rem; }
+  .overlay p { font-size: 0.8rem; }
+  button { padding: 6px 18px; }
+  .score-display { font-size: 0.8rem; gap: 10px; }
+}
